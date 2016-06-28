@@ -106,31 +106,36 @@ class OuvinteController extends Listener {
                 case TYPE_SWIPE:
                     SwipeGesture swipe = new SwipeGesture(gesture);
 
-                    if (swipe.state().equals(State.STATE_START)) {
+                    if (swipe.state().equals(State.STATE_STOP)) {
 
-                        if (swipe.direction().get(0) > 0 && (System.currentTimeMillis() - last) > 500) {
+                        if (swipe.direction().get(0) > 0 && (System.currentTimeMillis() - last) > 100) {
                             status("Direita");
                             robot.keyPress(KeyEvent.VK_RIGHT);
                             robot.keyRelease(KeyEvent.VK_RIGHT);
                             last = System.currentTimeMillis();
-                        } else if (swipe.direction().get(0) < 0 && (System.currentTimeMillis() - last) > 500) {
+                        } else if (swipe.direction().get(0) < 0 && (System.currentTimeMillis() - last) > 100) {
                             status("Esquerda");
                             robot.keyPress(KeyEvent.VK_LEFT);
                             robot.keyRelease(KeyEvent.VK_LEFT);
                             last = System.currentTimeMillis();
-
                         }
                     }
 
                     break;
 
-                case TYPE_SCREEN_TAP:
-                    ScreenTapGesture screentapGesture = new ScreenTapGesture(gesture);
-                    status("ScreenTap " + screentapGesture.progress());
+                case TYPE_CIRCLE:
+                    ScreenTapGesture circle = new ScreenTapGesture(gesture);
 
+                    if (System.currentTimeMillis() - last > 500) {
+                        status("Circle" + circle.progress());
+                        robot.keyPress(KeyEvent.VK_R);
+                        robot.keyRelease(KeyEvent.VK_R);
+                        last = System.currentTimeMillis();
+                    }
                     break;
 
             }
+
         }
 
     }
@@ -148,3 +153,8 @@ class OuvinteController extends Listener {
 
     }
 }
+
+
+
+
+//         rrrrr rrrrrr  rrrrrr                              
